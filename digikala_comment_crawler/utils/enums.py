@@ -18,8 +18,12 @@ class StatusCodes(Enum):
     NOT_FOUND_STATUS_CODE = 404
 
 
-class CSSSelectors(Enum):
+class Selectors(Enum):
     COMMENTS_CONTAINER = 'div.c-comments__container div.c-comments__content-section div#product-comment-list'
     COMMENT_ITEMS = "c-comments__item"
+    COMMENT_TITLE = "c-comments__title"
+    COMMENT_CONTENT = "c-comments__content"
+    POSITIVE_COMMENTS = "c-comments__modal-evaluation-item--positive"
+    NEGATIVE_COMMENTS =  "c-comments__modal-evaluation-item--negative"
     # COMMENT_TITLES = 'div.comments__item div.c-comments__row span.c-comments__title'
 

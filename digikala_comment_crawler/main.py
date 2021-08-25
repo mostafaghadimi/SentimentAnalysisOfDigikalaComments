@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from utils.enums import FormattedURLs, ErrorMessages, ConstantVariables, StatusCodes, CSSSelectors
+from utils.enums import FormattedURLs, ErrorMessages, ConstantVariables, StatusCodes, Selectors
 
 
 def get_raw_urls(max_product_id):
@@ -29,13 +29,15 @@ def crawl_web_page(to_be_crawled_urls, crawled_urls):
             response = requests.get(to_be_crawled_url)
             if response.status_code == StatusCodes.OK_STATUS_CODE.value:
                 parsed_response = BeautifulSoup(response.content, ConstantVariables.HTML_PARSER.value)
-                comments_container = parsed_response.select(CSSSelectors.COMMENTS_CONTAINER.value)[0]
+                comments_container = parsed_response.select(Selectors.COMMENTS_CONTAINER.value)[0]
 
-                for comment_detail in comments_container.find_all(class_=):
-                    comment_title = get_text_of_comments(comment_detail, class_name="c-comments__title")
-                    comment_content = get_text_of_comments(comment_detail, class_name="c-comments__content")
-                    comment_positivities = get_text_of_comments(comment_detail, class_name="c-comments__modal-evaluation-item--positive")
-                    comment_negativities = get_text_of_comments(comment_detail, class_name="c-comments__modal-evaluation-item--negative")
+                for comment_detail in comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value):
+                    comment_title = get_text_of_comments(comment_detail, class_name=Selectors.COMMENT_TITLE.value)
+                    comment_content = get_text_of_comments(comment_detail, class_name=Selectors.COMMENT_CONTENT.value)
+                    comment_positivities = get_text_of_comments(comment_detail,
+                                                                class_name=Selectors.POSITIVE_COMMENTS.value)
+                    comment_negativities = get_text_of_comments(comment_detail,
+                                                                class_name=Selectors.NEGATIVE_COMMENTS.value)
 
 
 if __name__ == '__main__':
