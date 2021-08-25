@@ -24,6 +24,12 @@ class Selectors(Enum):
     COMMENT_TITLE = "c-comments__title"
     COMMENT_CONTENT = "c-comments__content"
     POSITIVE_COMMENTS = "c-comments__modal-evaluation-item--positive"
-    NEGATIVE_COMMENTS =  "c-comments__modal-evaluation-item--negative"
+    NEGATIVE_COMMENTS = "c-comments__modal-evaluation-item--negative"
     # COMMENT_TITLES = 'div.comments__item div.c-comments__row span.c-comments__title'
 
+
+class CommentObject(Enum):
+    TITLE = 'title'
+    CONTENT = 'content'
+    POSITIVITIES = 'positivities'
+    NEGATIVITIES = 'negativities'
