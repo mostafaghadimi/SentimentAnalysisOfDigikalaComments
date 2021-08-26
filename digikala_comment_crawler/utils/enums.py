@@ -25,7 +25,7 @@ class Selectors(Enum):
     COMMENT_CONTENT = "c-comments__content"
     POSITIVE_COMMENTS = "c-comments__modal-evaluation-item--positive"
     NEGATIVE_COMMENTS = "c-comments__modal-evaluation-item--negative"
-    # COMMENT_TITLES = 'div.comments__item div.c-comments__row span.c-comments__title'
+    COMMENT_HELPFULNESS_SCORE = "c-comments__helpful-yes"
 
 
 class CommentObject(Enum):
@@ -33,3 +33,4 @@ class CommentObject(Enum):
     CONTENT = 'content'
     POSITIVITIES = 'positivities'
     NEGATIVITIES = 'negativities'
+    HELPFULNESS_SCORE = 'helpfulness score'

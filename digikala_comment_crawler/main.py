@@ -1,6 +1,7 @@
 import os
-import requests
+
 import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 
 from utils.enums import FormattedURLs, ErrorMessages, ConstantVariables, StatusCodes, Selectors, CommentObject
@@ -52,11 +53,17 @@ class DigikalaCrawler:
                                                                          class_name=Selectors.POSITIVE_COMMENTS.value)
                         comment_negativities = self.get_text_of_comments(comment_detail,
                                                                          class_name=Selectors.NEGATIVE_COMMENTS.value)
+                        comment_helpfulness_score = self.get_text_of_comments(
+                            comment_detail,
+                            class_name=Selectors.COMMENT_HELPFULNESS_SCORE.value
+                        )
+
                         comment_df = {
                             CommentObject.TITLE.value: comment_title,
                             CommentObject.CONTENT.value: comment_content,
                             CommentObject.POSITIVITIES.value: comment_positivities,
                             CommentObject.NEGATIVITIES.value: comment_negativities,
+                            CommentObject.HELPFULNESS_SCORE.value: comment_helpfulness_score,
                         }
 
                         self.dataframe = self.dataframe.append(comment_df, ignore_index=True)
