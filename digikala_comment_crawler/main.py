@@ -19,7 +19,7 @@ class DigikalaCrawler:
             raise ValueError(ErrorMessages.INT_TYPE_ERROR.value)
         urls = list()
         page_no = 1
-        for product_id in range(3, max_product_id):
+        for product_id in range(3868296, max_product_id + 1):
             urls.append(
                 FormattedURLs.BASE_URL.value.format(product_id, page_no)
             )
@@ -32,8 +32,19 @@ class DigikalaCrawler:
         except AttributeError:
             return None
 
+    def update_to_be_crawled_urls(self, comment_detail):
+        try:
+            comment_pages = comment_detail.find_all(class_=Selectors.COMMENT_PAGES.value)
+            for comment_page in comment_pages:
+                comment_page_url = comment_page['href']
+                if comment_page_url.startswith(ConstantVariables.URL_FORMATS.value):
+                    full_comment_page_url = FormattedURLs.DOMAIN_NAME.value.format(comment_page_url)
+                    if full_comment_page_url not in self.to_be_crawled_urls:
+                        self.to_be_crawled_urls.append(full_comment_page_url)
+        except AttributeError:
+            pass
+
     def crawl_web_pages(self):
-        print(self.to_be_crawled_urls)
         for to_be_crawled_url in self.to_be_crawled_urls:
             if to_be_crawled_url not in self.crawled_urls:
                 response = requests.get(to_be_crawled_url)
@@ -44,7 +55,10 @@ class DigikalaCrawler:
                     except IndexError:
                         continue
 
-                    for comment_detail in comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value):
+                    self.update_to_be_crawled_urls(comments_container)
+
+                    comment_details = comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value)
+                    for comment_detail in comment_details:
                         comment_title = self.get_text_of_comments(comment_detail,
                                                                   class_name=Selectors.COMMENT_TITLE.value)
                         comment_content = self.get_text_of_comments(comment_detail,
@@ -58,6 +72,7 @@ class DigikalaCrawler:
                             class_name=Selectors.COMMENT_HELPFULNESS_SCORE.value
                         )
 
+
                         comment_df = {
                             CommentObject.TITLE.value: comment_title,
                             CommentObject.CONTENT.value: comment_content,
@@ -67,7 +82,6 @@ class DigikalaCrawler:
                         }
 
                         self.dataframe = self.dataframe.append(comment_df, ignore_index=True)
-                    print(self.dataframe.head())
 
     def save_dataframe(self, file_format='csv', save_path='.'):
         if file_format == 'csv':
@@ -75,6 +89,6 @@ class DigikalaCrawler:
 
 
 if __name__ == '__main__':
-    digikala_crawler = DigikalaCrawler(10)
+    digikala_crawler = DigikalaCrawler(3868296)
     digikala_crawler.crawl_web_pages()
     digikala_crawler.save_dataframe()
