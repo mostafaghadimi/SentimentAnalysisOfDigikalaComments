@@ -12,6 +12,7 @@ class Messages(Enum):
     NO_COMMENTS_ERROR = 'This product doesn\'t have any comments.'
     CRAWLER_INIT_INFO = 'Digikala Crawler instance have been created.'
     URL_CREATION_INFO = 'Generating URLs from product ID {} to {}'
+    NOT_OK_STATUS_CODE = '{} status code has been occurred.'
     ADD_PAGINATION_INFO = 'The other comment pages of this product have been added'
     START_CRAWLING_URL_INFO = 'Start crawling and retrieving comments of {} URL.'
     SAVING_DATAFRAME_INFO = 'Saving data as {} in {} directory'

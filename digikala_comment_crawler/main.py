@@ -90,6 +90,9 @@ class DigikalaCrawler:
                         }
 
                         self.dataframe = self.dataframe.append(comment_df, ignore_index=True)
+                    else:
+                        self.logger.error(Messages.NOT_OK_STATUS_CODE.value.format(response.status_code))
+                self.crawled_urls.add(to_be_crawled_url)
 
     def save_dataframe(self, file_format='csv', save_path='.'):
         if file_format == 'csv':
