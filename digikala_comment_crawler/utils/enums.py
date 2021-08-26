@@ -6,8 +6,15 @@ class FormattedURLs(Enum):
     DOMAIN_NAME = 'https://www.digikala.com{}'
 
 
-class ErrorMessages(Enum):
+class Messages(Enum):
     INT_TYPE_ERROR = 'The value of max_product_id variable must be integer.'
+    PAGINATION_ERROR = 'This product doesn\'t have pagination.'
+    NO_COMMENTS_ERROR = 'This product doesn\'t have any comments.'
+    CRAWLER_INIT_INFO = 'Digikala Crawler instance have been created.'
+    URL_CREATION_INFO = 'Generating URLs from product ID {} to {}'
+    ADD_PAGINATION_INFO = 'The other comment pages of this product have been added'
+    START_CRAWLING_URL_INFO = 'Start crawling and retrieving comments of {} URL.'
+    SAVING_DATAFRAME_INFO = 'Saving data as {} in {} directory'
 
 
 class ConstantVariables(Enum):

@@ -5,7 +5,7 @@ def get_global_logger(name):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
-        '%(asctime)s:%(name)s:%(funcName)s:%(message)s',
+        '%(asctime)s:%(funcName)s:%(message)s',
         datefmt='%Y/%m/%d %H:%M:%S'
     )
     stream_handler = logging.StreamHandler()
