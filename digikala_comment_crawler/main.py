@@ -7,7 +7,7 @@ import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 
-from utils.enums import FormattedURLs, Messages, ConstantVariables, StatusCodes, Selectors, CommentObject
+from utils.enums import FormattedURLs, Messages, ConstantVariables, StatusCodes, Selectors, CommentObject, Attributes
 from utils.logger import get_global_logger
 
 
@@ -45,7 +45,7 @@ class DigikalaCrawler:
         try:
             comment_pages = comment_detail.find_all(class_=Selectors.COMMENT_PAGES.value)
             for comment_page in comment_pages:
-                comment_page_url = comment_page['href']
+                comment_page_url = comment_page[Attributes.HREF.value]
                 if comment_page_url.startswith(ConstantVariables.URL_FORMATS.value):
                     full_comment_page_url = FormattedURLs.DOMAIN_NAME.value.format(comment_page_url)
                     if full_comment_page_url not in self.to_be_crawled_urls:
@@ -67,7 +67,7 @@ class DigikalaCrawler:
                     self.logger.error(Messages.NO_COMMENTS_ERROR.value)
 
                 self.update_to_be_crawled_urls(comments_container)
-                product_id = parsed_response.select(Selectors.PRODUCT_ID.value)[0]['data-product-id']
+                product_id = parsed_response.select(Selectors.PRODUCT_ID.value)[0][Attributes.PRODUCT_ID.value]
                 comment_details = comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value)
                 for comment_detail in comment_details:
                     comment_title = self.get_text_of_comments(comment_detail,
