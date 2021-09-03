@@ -67,7 +67,7 @@ class DigikalaCrawler:
                     self.logger.error(Messages.NO_COMMENTS_ERROR.value)
 
                 self.update_to_be_crawled_urls(comments_container)
-
+                product_id = parsed_response.select(Selectors.PRODUCT_ID.value)[0]['data-product-id']
                 comment_details = comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value)
                 for comment_detail in comment_details:
                     comment_title = self.get_text_of_comments(comment_detail,
@@ -82,10 +82,10 @@ class DigikalaCrawler:
                         comment_detail,
                         class_name=Selectors.COMMENT_HELPFULNESS_SCORE.value
                     )
-
                     comment_df = {
                         CommentObject.TITLE.value: comment_title,
                         CommentObject.CONTENT.value: comment_content,
+                        CommentObject.PRODUCT_ID.value: product_id,
                         CommentObject.POSITIVITIES.value: comment_positivities,
                         CommentObject.NEGATIVITIES.value: comment_negativities,
                         CommentObject.HELPFULNESS_SCORE.value: comment_helpfulness_score,
