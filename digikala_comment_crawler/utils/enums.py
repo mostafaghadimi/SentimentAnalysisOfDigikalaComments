@@ -14,8 +14,8 @@ class Messages(Enum):
     URL_CREATION_INFO = 'Generating URLs from product ID {} to {}'
     NOT_OK_STATUS_CODE = '{} status code has been occurred.'
     ADD_PAGINATION_INFO = 'The other comment pages of this product have been added'
-    START_CRAWLING_URL_INFO = 'Start crawling and retrieving comments of {} URL.'
     SAVING_DATAFRAME_INFO = 'Saving data as {} in {} directory'
+    START_CRAWLING_URL_INFO = 'Start crawling and retrieving comments of {} URL.'
 
 
 class ConstantVariables(Enum):
@@ -34,10 +34,10 @@ class Selectors(Enum):
     COMMENT_ITEMS = "c-comments__item"
     COMMENT_TITLE = "c-comments__title"
     COMMENT_CONTENT = "c-comments__content"
-    COMMENT_HELPFULNESS_SCORE = "c-comments__helpful-yes"
     POSITIVE_COMMENTS = "c-comments__modal-evaluation-item--positive"
     NEGATIVE_COMMENTS = "c-comments__modal-evaluation-item--negative"
     COMMENTS_CONTAINER = 'div.c-comments__container div.c-comments__content-section div#product-comment-list'
+    COMMENT_HELPFULNESS_SCORE = "c-comments__helpful-yes"
 
 
 class CommentObject(Enum):
@@ -47,3 +47,8 @@ class CommentObject(Enum):
     POSITIVITIES = 'positivities'
     NEGATIVITIES = 'negativities'
     HELPFULNESS_SCORE = 'helpfulness score'
+
+
+class Attributes(Enum):
+    HREF = 'href'
+    PRODUCT_ID = 'data-product-id'
