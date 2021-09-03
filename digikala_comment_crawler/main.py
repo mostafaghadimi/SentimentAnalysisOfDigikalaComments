@@ -1,4 +1,5 @@
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 import pandas as pd
 import requests
@@ -53,50 +54,51 @@ class DigikalaCrawler:
         except AttributeError:
             self.logger.error(Messages.PAGINATION_ERROR.value)
 
-    async def crawl_web_pages(self):
-        for to_be_crawled_url in self.to_be_crawled_urls:
-            if to_be_crawled_url not in self.crawled_urls:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(to_be_crawled_url) as response:
-                        if response.status == StatusCodes.OK_STATUS_CODE.value:
-                            self.logger.info(Messages.START_CRAWLING_URL_INFO.value.format(to_be_crawled_url))
-                            response_content = await response.text()
-                            parsed_response = BeautifulSoup(response_content, ConstantVariables.HTML_PARSER.value)
-                            try:
-                                comments_container = parsed_response.select(Selectors.COMMENTS_CONTAINER.value)[0]
-                            except IndexError:
-                                self.logger.error(Messages.NO_COMMENTS_ERROR.value)
-                                continue
+    def crawl_web_pages(self, to_be_crawled_url):
+        if to_be_crawled_url not in self.crawled_urls:
+            response = requests.get(to_be_crawled_url)
+            if response.status_code == StatusCodes.OK_STATUS_CODE.value:
+                self.logger.info(Messages.START_CRAWLING_URL_INFO.value.format(to_be_crawled_url))
+                response_content = response.content
+                parsed_response = BeautifulSoup(response_content, ConstantVariables.HTML_PARSER.value)
+                try:
+                    comments_container = parsed_response.select(Selectors.COMMENTS_CONTAINER.value)[0]
+                except IndexError:
+                    self.logger.error(Messages.NO_COMMENTS_ERROR.value)
 
-                            self.update_to_be_crawled_urls(comments_container)
+                self.update_to_be_crawled_urls(comments_container)
 
-                            comment_details = comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value)
-                            for comment_detail in comment_details:
-                                comment_title = self.get_text_of_comments(comment_detail,
-                                                                          class_name=Selectors.COMMENT_TITLE.value)
-                                comment_content = self.get_text_of_comments(comment_detail,
-                                                                            class_name=Selectors.COMMENT_CONTENT.value)
-                                comment_positivities = self.get_text_of_comments(comment_detail,
-                                                                                 class_name=Selectors.POSITIVE_COMMENTS.value)
-                                comment_negativities = self.get_text_of_comments(comment_detail,
-                                                                                 class_name=Selectors.NEGATIVE_COMMENTS.value)
-                                comment_helpfulness_score = self.get_text_of_comments(
-                                    comment_detail,
-                                    class_name=Selectors.COMMENT_HELPFULNESS_SCORE.value
-                                )
+                comment_details = comments_container.find_all(class_=Selectors.COMMENT_ITEMS.value)
+                for comment_detail in comment_details:
+                    comment_title = self.get_text_of_comments(comment_detail,
+                                                              class_name=Selectors.COMMENT_TITLE.value)
+                    comment_content = self.get_text_of_comments(comment_detail,
+                                                                class_name=Selectors.COMMENT_CONTENT.value)
+                    comment_positivities = self.get_text_of_comments(comment_detail,
+                                                                     class_name=Selectors.POSITIVE_COMMENTS.value)
+                    comment_negativities = self.get_text_of_comments(comment_detail,
+                                                                     class_name=Selectors.NEGATIVE_COMMENTS.value)
+                    comment_helpfulness_score = self.get_text_of_comments(
+                        comment_detail,
+                        class_name=Selectors.COMMENT_HELPFULNESS_SCORE.value
+                    )
 
-                                comment_df = {
-                                    CommentObject.TITLE.value: comment_title,
-                                    CommentObject.CONTENT.value: comment_content,
-                                    CommentObject.POSITIVITIES.value: comment_positivities,
-                                    CommentObject.NEGATIVITIES.value: comment_negativities,
-                                    CommentObject.HELPFULNESS_SCORE.value: comment_helpfulness_score,
-                                }
+                    comment_df = {
+                        CommentObject.TITLE.value: comment_title,
+                        CommentObject.CONTENT.value: comment_content,
+                        CommentObject.POSITIVITIES.value: comment_positivities,
+                        CommentObject.NEGATIVITIES.value: comment_negativities,
+                        CommentObject.HELPFULNESS_SCORE.value: comment_helpfulness_score,
+                    }
 
-                                self.dataframe = self.dataframe.append(comment_df, ignore_index=True)
-                            else:
-                                self.logger.error(Messages.NOT_OK_STATUS_CODE.value.format(response.status))
-                        self.crawled_urls.add(to_be_crawled_url)
+                    self.dataframe = self.dataframe.append(comment_df, ignore_index=True)
+                    self.crawled_urls.add(to_be_crawled_url)
+                else:
+                    self.logger.error(Messages.NOT_OK_STATUS_CODE.value.format(response.status))
+
+    def run(self):
+        with ThreadPoolExecutor() as executor:
+            executor.map(self.crawl_web_pages, self.to_be_crawled_urls)
 
     def save_dataframe(self, file_format='csv', save_path='.'):
         if file_format == 'csv':
@@ -106,7 +108,5 @@ class DigikalaCrawler:
 
 if __name__ == '__main__':
     digikala_crawler = DigikalaCrawler(6221912)
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(digikala_crawler.crawl_web_pages())
-    # digikala_crawler.crawl_web_pages()
+    digikala_crawler.run()
     digikala_crawler.save_dataframe()
