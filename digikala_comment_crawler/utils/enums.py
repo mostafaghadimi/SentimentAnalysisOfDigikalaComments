@@ -29,6 +29,7 @@ class StatusCodes(Enum):
 
 
 class Selectors(Enum):
+    PRODUCT_ID = "div.c-comments__container div.c-comments__side-bar a.js-add-new-comment"
     COMMENT_PAGES = "c-pager__item"
     COMMENT_ITEMS = "c-comments__item"
     COMMENT_TITLE = "c-comments__title"
@@ -42,6 +43,7 @@ class Selectors(Enum):
 class CommentObject(Enum):
     TITLE = 'title'
     CONTENT = 'content'
+    PRODUCT_ID = 'product_id'
     POSITIVITIES = 'positivities'
     NEGATIVITIES = 'negativities'
     HELPFULNESS_SCORE = 'helpfulness score'
