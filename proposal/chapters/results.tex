@@ -7,7 +7,7 @@
 \قسمت{مجموعه دادگان}
 
 در این قسمت مجموعه‌دادگان آموزش و آزمون مدل‌های پیشنهادی معرفی می‌شوند و پیش‌پردازش‌های انجام شده روی هریک آورده شده است.
-
+همان‌طور که در قسمت قبل یعنی مدل پیشنهادی صحبت شد، در آن مدل ما تعدادی شاخص داریم مانند کیفیت کالا.  حال در مجموعه دادگان آموزش اپراتورهای دیجی‌کالا حدود ۲۵ میلیون کامنت را برچسب‌گذاری کرده‌اند و از آن در مدل خود استفاده نموده‌ایم. اندازه‌ی مجموعه دادگان نقش بسیار مهمی در دقت مدل به‌دست آمده دارد.
 \قسمت{معیار‌های اندازه‌گیری}
 
 برای اندازه‌گیری دقت مدل، روش‌های گوناگونی وجود دارد که ابتدا سه تا از مهم‌ترین معیارها را معرفی کرده و در قسمت بعدی به مقایسه‌ی نتایج به دست‌آمده از دقت هر کدام از روش‌ها برای همه‌ی شاخص‌ها خواهیم پرداخت.
@@ -38,8 +38,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/quality.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص کیفیت}\label{}
+\includegraphics[width=15cm]{figs/quality.png}
 \label{fig:test}
 \end{figure}
 
@@ -47,8 +47,8 @@
 \قسمت{دقت ‌مدل بر اساس معیارهای متفاوت روی شاخص ارزش نسبت به قیمت}
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/price.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص ارزش نسبت به قیمت}\label{}
+\includegraphics[width=15cm]{figs/price.png}
 \label{fig:test}
 \end{figure}
 
@@ -57,8 +57,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/fake.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص اصالت}\label{}
+\includegraphics[width=15cm]{figs/fake.png}
 \label{fig:test}
 \end{figure}
 
@@ -68,8 +68,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/warranty.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص گارانتی}\label{}
+\includegraphics[width=15cm]{figs/warranty.png}
 \label{fig:test}
 \end{figure}
 
@@ -78,8 +78,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/size.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص ابعاد}\label{}
+\includegraphics[width=15cm]{figs/size.png}
 \label{fig:test}
 \end{figure}
 
@@ -89,8 +89,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/discrepcency.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص مغایرت کالا با کالای خریداری شده}\label{}
+\includegraphics[width=15cm]{figs/discrepcency.png}
 \label{fig:test}
 \end{figure}
 
@@ -99,8 +99,8 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/flavor.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص رایحه/بو}\label{}
+\includegraphics[width=15cm]{figs/flavor.png}
 \label{fig:test}
 \end{figure}
 
@@ -110,7 +110,18 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=15cm]{figs/expire.png}
 \caption{ ‌مدل بر اساس معیارهای متفاوت روی شاخص تاریخ انقضا}\label{}
+\includegraphics[width=15cm]{figs/expire.png}
 \label{fig:test}
 \end{figure}
+
+
+\قسمت{جمع‌بندی}
+
+با توجه به نتایج به دست آمده که آن‌ها را به‌طور دقیق در شکل‌ها بررسی نمودیم و با توجه به بالا بودن مقدار دقت با استفاده از تابع‌های هزینه‌ی 
+\lr{Precision}
+،
+\lr{Recall}
+و 
+\lr{F1}
+متوجه می‌شویم که مدل خروجی بسیار خوبی و مورد انتظاری دارد. لذا تنها کار برای پیش‌رفت مدل، جامع و مانع کردن آن می‌باشد که در بخش نتیجه‌گیری به‌طور کامل بدان می‌پردازیم.
